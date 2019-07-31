@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="note">
+	
+	<select id="selectNoteList" resultType="map">
+		select * from memo 
+		where member_no= #{member_no} order by memo_date desc
+	</select>
+	
+	<select id="selectNoteTotalContents" resultType="_int">
+		select count(*) from memo
+		where member_no = #{member_no}
+	</select>
+	
+	<select id="selectNoReadContents" resultType="_int">
+		select count(*) from memo 
+		where memo_yn = 'N' and member_no = #{member_no}
+	</select>
+	
+	<select id="selectNote" resultType="string">
+		select memo_contents from memo
+		 where memo_no = #{memo_no}
+	</select>
+
+	<delete id="deleteNote">
+		delete from memo where memo_no in
+		<foreach collection="list" item="memo_no" open="(" close=")" separator=",">
+		 #{memo_no}
+		</foreach>
+	</delete>
+	
+	<update id="updateNoteYN">
+		update memo set memo_yn = 'Y' where memo_yn = 'N' and memo_no = #{memo_no}
+	</update>
+</mapper> 

@@ -1,0 +1,93 @@
+@charset "UTF-8";
+div.noteMain .btn-group{
+	left: 30%;
+	top: 12%;
+}
+
+span.note1{
+	padding: 3% 2%;
+}
+/*쪽지함*/
+div.not-sub{
+	margin-top: -16%;
+}
+span.noteBOX{
+	font-size:25px;
+	margin: 1%;
+}
+
+/*delete button*/
+button#deleteBtn{
+	height: 35px;
+	margin-left: 13%;
+    font-size: 16px;
+}
+
+div.notebox hr{
+	border: solid 1px #c4c4c4;
+}
+
+ /*table  */
+div.table-note-div table#tbl-note{
+	width: 600px;
+	min-height: 100px;
+	border: 1px;
+}
+table#tbl-note tr th{
+	padding-left:1%;
+}
+
+td#no{
+	display: none;
+}
+/*table bootstrap*/
+table#tbl-note tr td.td-primary{
+	color: black;
+	background-color: white;
+	border: white;
+}
+td.yn{
+	text-align: center;
+}
+
+
+/*쪽지모달*/
+div.modal-content{
+	weight: 300px;
+	min-height: 300px;
+}
+
+div #contentC{
+	width: 80px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+div.note-contents{
+	margin: 2%;
+}
+
+/* a link design */
+/* 방문 전 링크 상태이다. */
+a.none-underline:link {
+	color: black;
+	text-decoration: none;
+}
+
+/* 방문 후 링크 상태이다. */
+a.none-underline:visited {
+	color: gray;
+	text-decoration: none;
+}
+
+/* 마우스 오버 했을 때 링크 상태이다. */
+a.none-underline:hover {
+	color: lightgray;
+	text-decoration: none;
+}
+
+/* 클릭 했을 때 링크 상태이다. */
+a.none-underline:active {
+	color: lightgray;
+	text-decoration: none;
+}

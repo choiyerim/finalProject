@@ -1,0 +1,25 @@
+@charset "UTF-8";
+#btn{
+     color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    /* font-weight: bold; */
+    width: 85px;
+    height: 31px;
+    border-radius: 5px;
+  
+}
+table input:not(#upFile) {
+    border-radius: 4px;
+    border: 1px solid;
+}
+table #upFile{
+    border-bottom: 1px solid #000000;
+}
+table #estatecontent{
+width: 300px;
+}
+
+form{
+	    padding-left: 250px;
+}

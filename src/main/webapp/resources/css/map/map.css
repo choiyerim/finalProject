@@ -1,0 +1,392 @@
+@charset "UTF-8";
+
+div#contents {
+	width: 100%;
+	position: relative;
+	z-index: 10;
+}
+
+div#map {
+	width: 100%;
+	height: 700px;
+	margin-bottom: 2px;
+	margin-left: 5px;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	display: inline-block;
+	z-index: 50;
+}
+/*사이드바  
+-매물목록 or 상세정보 뿌려주는 곳
+*/
+
+div#sidebar {
+	width: 383px;
+	height: 700px;
+	position: absolute;
+	right: -2px;
+	top: 111px;
+	margin: 0px;
+	padding: 0px;
+	z-index: 100;
+	background-color: white;
+	overflow: scroll;
+	overflow-x:hidden; 
+}
+
+/*마크 클릭시 매물 목록 보여주는 css  */
+div#estateBar{
+	position: sticky;
+	top:0px;
+	width: 366px;
+    height: 70px;
+	margin: 0px;
+	padding: 0px;
+	z-index: inherit;
+	background-color: white;
+}
+
+div#estateBar p{	
+	position: relative;
+    top: 15px;
+    left: 10px;
+	font-size: 120%;
+	font-weight: bold;
+	display: inline-block;
+}
+
+div#estateBar .change{
+	position: absolute;
+    top: 11px;
+    right: 0px;
+}
+
+div#sidebar .estateList{
+	padding:10px 0px 0px 10px;
+}
+
+div#estate{
+	width: 366px;
+	height:132px;
+	margin: 0px;
+	padding: 10px;
+}
+
+div#estate img{
+	width: 145px;
+	height:113px;
+}
+
+div#estate .best{
+	position: relative;
+    color: red;
+    bottom: 47px;
+    margin: 10px;
+    padding: 1px;
+    font-size: 70%;
+    background-color: aqua;
+}
+
+/* 추천  */
+div#estate .apart{
+	position: relative;
+    color: #757575;
+    font-size: 70%;
+    bottom: 47px;
+    margin:10px;
+}
+
+/* 일반 */
+div#estate .apart2{
+	position: relative;
+    color: #757575;
+    font-size: 70%;
+    bottom: 47px;
+    margin:10px;
+}
+
+div#estate .price {
+	position: relative;
+    bottom: 93px;
+    left: 154px;
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+}
+
+div#estate .area{
+	position: relative;
+    color: black;
+    font-size: 120%;
+    bottom: 95px;
+    left: 143px;
+    margin: 10px;
+}
+
+div#estate .address{
+	position: relative;
+    color: black;
+    font-size: 70%;
+    left: 146px;
+    bottom: 95px;
+    margin: 10px;
+}
+
+div#estate .option{
+	position: relative;
+    color: rgb(117, 117, 117);
+    font-size: 70%;
+    left: 146px;
+    bottom: 90px;
+    margin: 10px;
+}
+
+div#sidebar #imgBox {
+	width: 383px;
+	height: 287px;
+	padding: 0px;
+	border: 0px;
+}
+
+div#sidebar #imgBox img {
+	position: relative;
+    top: 0px;
+    width: 366px;
+    height: 287px;
+    padding: 0px;
+    border: 0px;
+}
+
+div#sidebar #floating{
+	position: sticky;
+	top:0px;
+	width: 366px;
+	height: 55px;
+	padding: 0px;
+	border: 0px;
+	background-color:white;
+	color: black;
+	font-size: 20px;
+	border-bottom: 1px solid;
+	z-index: 15;
+}
+
+div#sidebar #floating span{
+	position: relative;
+	font-weight: bold;
+	top:6px;
+}
+div#sidebar #floating .change{
+	position: absolute;
+    top: 8px;
+    right: 0px;
+	
+}
+
+div#sidebar #location {
+	width: 366px;
+	font-size: 115%;
+	font-weight: bold;
+}
+
+
+div#sidebar #roadview {
+	width: 366px;
+	height: 300px;
+	top: 10px;
+}
+
+/*면접(공급/전용) 동 층(해당층)*/
+div#datilinfor{
+ 
+}
+div#A{
+	width: 33%;
+	float: left;
+	text-align: center;	
+}
+div#B{	
+	width: 33%;
+	float: left;	
+	text-align: center;
+}
+div#C{
+	width: 33%;
+	float: left;	
+	text-align: center;	
+}
+div#font{
+	text-align: center;
+	 color: #2d60a3;
+ 	font-weight: bold;
+     font-size: 20px;
+}
+
+
+
+.modal-backdrop.show{z-index:99; }
+.starR.on{background-position:0 0;}
+ .starR{
+  background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+  background-size: auto 100%;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  text-indent: -9999px;
+  cursor: pointer;
+ }
+
+div#yellowStarContainer{
+	width:415px;
+}
+/*지도 및 사이드바 css 종료 */
+/* ---------------- ------------------ */
+
+
+div#searchArea {
+	height: 145px;
+	width: 400px;
+	display: inline-block;
+	background: rgba(255, 255, 255, 0.95);
+	z-index: 80;
+	bottom: 300px;
+	top: 125px;
+	position: absolute;
+	left: 10px;
+}
+
+div#searchArea input[type=search] {
+	position: relative;
+	margin: 1px 0 1px 1px;
+	box-shadow: none;
+	border: 1px solid gray;
+	width: 150px;
+}
+
+div#search1 button img {
+	width: 25px;
+	height: 25px;
+	position: relative;
+	margin: 0;
+}
+
+div#search1 button {
+	margin: 0;
+	background: none;
+	border: none;
+	bottom: 2px;
+	right: 2px;
+	position: relative;
+	margin: 0;
+}
+
+div#search1 {
+	background: rgb(250, 136, 11);
+	display: inline-block;
+	margin: 15px 0 0 15px;
+	border-radius: 6px;
+	line-height: 35px;
+}
+
+div#search1 input[type=search] {
+	width: 320px;
+	border-radius: 6px;
+}
+
+div#search2 {
+	position: relative;
+	margin: 0 0 0 7px;
+	display: inline-block;
+}
+
+div#search2 select {
+	width: 65px;
+	height: 35px;
+	position: relative;
+}
+
+div#search2 input[type=button] {
+	cursor: pointer;
+	width: 230px;
+	height: 35px;
+	background: none;
+	border: gray;
+	text-align: center;
+}
+
+div#search2 #filter {
+	cursor: pointer;
+	display: inline-block;
+}
+
+div#search3 {
+	position: relative;
+	display: block;
+	height: 430px;
+	overflow: auto;
+}
+
+div#search3 img {
+	position: relative;
+	botton: 7px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+
+div#search3 #fil {
+	font-size: 28px;
+}
+
+div#search3 #reset {
+	font-size: 20px;
+	margin-left: 130px;
+	cursor: pointer;
+}
+
+button.first {
+	width: 95px;
+	margin: 5px;
+	color: black;
+	background: white;
+}
+
+div#search3 p.filterTitle {
+	font-size: 30px;
+	font-weight: bold;
+	color: orange;
+}
+
+button.second {
+	background: white;
+	color: black;
+	border: none;
+}
+button.third{
+	background: white;
+	color: black;
+	border: none;
+}
+
+div#search3 table#areaTbl td {
+	border: 1px solid gray;
+	width: 80px;
+	padding: 4px;
+	text-align: center;
+}
+
+#areaTbl td:hover {
+	background: #6c757d;
+}
+
+div#search3 {
+	display: none;
+	margin-left: 5px;
+}
+
+div#search3 p.range {
+	font-size: 30px;
+	font-weight: bold;
+	color: orange;
+}

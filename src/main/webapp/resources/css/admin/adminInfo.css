@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/* 배경 */
+div#back-container {
+	width: 100%;
+    height: auto;
+    padding: 40px 150px 20px 150px;
+    background-color: lightgray;
+}
+
+/* 정보창 */
+div#info-container {
+    width: 800px;
+    height: 600px;
+    margin: auto;
+    padding: 0px;
+    background-color: lightgray;
+}
+
+div#list-container {
+	background-color: white;
+	width: 100%;
+	min-width: 600px;
+	height: 558px;
+	text-align: center;
+	padding: 30px;
+}
+
+nav#search-nav {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 30px;	
+}
+
+nav#pageBar {
+    position: relative;
+    top: 250px;
+    left: 40%;
+}
+/* button */
+div#button-container button {
+	font-size: 16px;	
+}
+
+/* pageBar */
+div.pageBar-container {
+	 text-align: center;
+	 position: relative;
+	 top: -76px;
+}
+
+/* a link design */
+/* 방문 전 링크 상태이다. */
+a.none-underline:link {
+	color: black;
+	text-decoration: none;
+}
+
+/* 방문 후 링크 상태이다. */
+a.none-underline:visited {
+	color: gray;
+	text-decoration: none;
+}
+
+/* 마우스 오버 했을 때 링크 상태이다. */
+a.none-underline:hover {
+	color: lightgray;
+	text-decoration: none;
+}
+
+/* 클릭 했을 때 링크 상태이다. */
+a.none-underline:active {
+	color: lightgray;
+	text-decoration: none;
+}
+
+/* 신고목록 처리여부 */
+.flagChk-container {
+	position: absolute;
+}

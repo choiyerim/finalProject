@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+.main-intro {
+    width: 100%;
+    padding: 27px 0 97px;
+    background: white;
+    overflow: hidden;
+}
+
+.wrap-840 {
+    width: 840px;
+    margin: auto;
+}
+
+.main-intro .m-tv {
+    float: left;
+    width: 260px;
+}
+
+.main-intro .m-news {
+    position: relative;
+    float: left;
+    width: 260px;
+    padding-left: 30px;
+}
+
+.wrap-840 > div h4 {
+    height: 17px;
+    font-size: 15px;
+    color: black;
+    padding-bottom: 24px;
+    /* padding-bottom: 13px; */
+    border-bottom: 2px solid #e1e1e1;
+    margin-bottom: 17px;
+    margin-top: 0px;
+    position: relative;
+}
+
+.main-intro .item_box {
+    margin-top: -9px;
+}
+
+.main-intro .item_box a {
+    display: block;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: black;
+}
+
+.main-intro .m-notice {
+    position: relative;
+    float: left;
+    width: 260px;
+    padding-left: 30px;
+}
+
+.main-intro .item_more {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 22px;
+    line-height: 22px;
+    border: solid 1px #e1e1e1;
+    display: block;
+    padding: 0 12px;
+    margin-top: -2px;
+}
+
+/* a link design */
+/* 방문 전 링크 상태이다. */
+.main-intro a {
+	font-size: 12px;
+}
+.main-intro a:link {
+	color: black;
+	text-decoration: none;
+}
+
+/* 방문 후 링크 상태이다. */
+.main-intro a:visited {
+	color: gray;
+	text-decoration: none;
+}
+
+/* 마우스 오버 했을 때 링크 상태이다. */
+.main-intro a:hover {
+	color: lightgray;
+	text-decoration: none;
+}
+
+/* 클릭 했을 때 링크 상태이다. */
+.main-intro a:active {
+	color: lightgray;
+	text-decoration: none;
+}

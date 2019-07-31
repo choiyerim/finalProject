@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="estate">
+	<select id="selectLocalCodeFromRegion" resultType="string">
+		SELECT
+		substr(region_code,0,5) FROM REGION where legal_dong like
+		'%'||#{localName}||'%' and rownum=1
+	</select>
+	
+	<select id="selectApartmentname" resultType="string"> select address from
+		estate where region_code= #{localCode} and estate_type=#{estateType}
+		<if test='dealType !="all"'>
+			and transaction_type=#{dealType}
+		</if>
+	</select>
+
+	<select id="selectDetailEstate" resultMap="estateAttchmentMap">
+		select * from estate e join estate_photo p using(estate_no)
+		where estate_no = #{estateNo} order by photo_no desc
+	</select>
+	
+	<select id="showRecommendEstate" resultMap="estateAttchmentMap">
+		 select *  from estate e join power_link pl using(estate_no) join tbl_option tbl using(estate_no) join 
+         (select e.*from( select * from  estate_photo)e where rowid in(select max(rowid) from  estate_photo group by estate_no))using(estate_no)
+         where (select quit_yn from member where e.member_no = member_no) !='Y' and (address=#{addressName} or address=#{roadAddressName})  and replace(option_detail,',','') like '%'||#{option}||'%'
+         and estate_type=#{estateType} and business_member_no != 0
+       <if test='estateType == "A"'>
+       and transAction_type=#{transActionType}
+	       <if test='structure !="all"'>
+		         <if test="structure gte 198.0">
+						and estate_area between #{structure} and 10000000
+				</if>
+				<if test='structure !=198.0'>
+					and estate_area between #{structure} and #{structure}+32
+				</if>
+				<if test='transActionType == "O"'>
+	         			and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2}
+	         	</if> 
+	         	<if test='transActionType != "O"'>
+	         			and estate_price between #{range1} and #{range2}
+	         	</if> 
+	       </if>
+		</if>
+        <if test='estateType != "A"'>
+        	<if test='transActionType == "all"'>
+        		and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2}
+        	</if>
+        	<if test='transActionType == "O"'>
+	         		and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2} and transaction_type=#{transActionType}
+	         </if>
+        	<if test='transActionType != "all" and transActionType != "O"'>
+	         	 and estate_price between #{range1} and #{range2} and transaction_type=#{transActionType}
+        	</if>
+        	<if test="structure != 'all'">
+          		and replace(construction,',','') = #{structure}
+			</if>
+        </if>
+         <if test='estateType == "O"'>
+        	<if test='topOption != "all"'>
+        	 	and replace(flooroption,',','') = #{topOption}
+        	 </if>
+        </if>
+		
+         order by start_date desc
+	</select>
+	<resultMap type="estate" id="estateAttchmentMap">
+		<id column="ESTATE_NO" property="EstateNo"/>
+		<result column="REGION_CODE" property="RegionCode"/>          
+		<result column="MEMBER_NO" property="MemberNo"/>
+		<result column="BUSINESS_MEMBER_NO" property="BusinessMemberNo"/>
+		<result column="PHONE" property="Phone"/>
+		<result column="BUSINESS_PHONE" property="BusinessPhone"/>
+		<result column="ADDRESS" property="Address"/>
+		<result column="ESTATE_TYPE" property="EstateType"/>
+		<result column="TRANSACTION_TYPE" property="TransActionType"/>
+		<result column="ESTATE_PRICE" property="EstatePrice"/>
+		<result column="MANAGEMENT_FEE" property="ManageMentFee"/>
+		<result column="ESTATE_AREA" property="EstateArea"/>
+		<result column="SUBWAY_STATION" property="SubwayStation"/>
+		<result column="ESTATE_CONTENT" property="EstateContent"/>
+		<result column="WRITTEN_DATE" property="WrittenDate"/>
+		<result column="ADDRESS_DETAIL" property="AddressDetail"/>
+		<result column="DEPOSIT" property="Deposit"/>
+		
+		<collection property="option" ofType="hashmap">
+			<id column="ESTATE_NO" property="estateNo"/>
+			<result column="OPTION_DETAIL" property="optionDetail"/>
+			<result column="CONSTRUCTION" property="construction"/>
+			<result column="FLOOROPTION" property="floorOption"/>
+		</collection>
+		
+		<!-- collection: 1:n 관계e를 표현 -->
+		<collection property="attachList" ofType="estateAttach">
+			<id column="PHOTO_NO" property="attachNo"/>
+			<result column="ESTATE_NO" property="estateNo"/>
+			<result column="ORIGINAL_FILENAME" property="originalFileName"/>
+			<result column="RENAMED_FILENAME" property="renamedFileName"/>
+			<result column="UPLOAD_DATE" property="uploadDate"/>
+		</collection>
+	</resultMap>
+	
+	
+	<select id="showNotRecommendEstate" resultMap="estateAttchmentMap">
+		 select *  from estate e join tbl_option tbl using(estate_no) join 
+         (select e.*from( select * from  estate_photo)e where rowid in(select max(rowid) from  estate_photo group by estate_no))using(estate_no)
+         where estate_no not in (select estate_no from power_link ) and (select quit_yn from member where e.member_no = member_no) !='Y' and (address=#{addressName} or address=#{roadAddressName})
+         and replace(option_detail,',','') like '%'||#{option}||'%' and estate_type=#{estateType} and business_member_no != 0
+       <if test='estateType == "A"'>
+       and transAction_type=#{transActionType}
+	       <if test='structure !="all"'>
+		         <if test="structure gte 198.0">
+						and estate_area between #{structure} and 10000000
+				</if>
+				<if test='structure !=198.0'>
+					and estate_area between #{structure} and #{structure}+32
+				</if>
+				<if test='transActionType == "O"'>
+	         			and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2} and transaction_type=#{transActionType}
+	         	</if> 
+	         	<if test='transActionType != "O"'>
+	         			and estate_price between #{range1} and #{range2}
+	         	</if> 
+	       </if>
+		</if>
+        <if test='estateType != "A"'>
+        	<if test='transActionType == "all"'>
+        		and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2}
+        	</if>
+        	<if test='transActionType == "O"'>
+	         		and estate_price between #{range3} and #{range4} and deposit between #{range1} and #{range2} and transaction_type=#{transActionType}
+	         </if>
+        	<if test='transActionType != "all" and transActionType != "O"'>
+	         	 and estate_price between #{range1} and #{range2} and transaction_type=#{transActionType}
+        	</if>
+        	<if test='structure != "all"'>
+          			and replace(construction,',','') = #{structure}
+			</if>
+        </if>
+        <if test='estateType == "O"'>
+        	<if test='topOption != "all"'>
+        	 	and replace(flooroption,',','') = #{topOption}
+        	 </if>
+        </if>
+         order by written_date desc
+	</select>
+	
+	<select id="selectEstateAttach" resultType="estateAttach">
+		select * from
+		estate_photo where estate_no=#{estateNo}
+	</select>
+	
+	
+	 <insert id="estateoptionlist">
+     insert into tbl_option(estate_no,option_detail,construction,flooroption)
+     values(seq_estate_no.currval,#{optionDetail, typeHandler=strArrTypeHandler},
+             #{construction,typeHandler=strArrTypeHandler},#{floorOpt,typeHandler=strArrTypeHandler})
+    </insert>
+	
+
+	<resultMap type="option" id="optionMap">
+		<result column="option_detail" property="optionDetail"
+			typeHandler="strArrTypeHandler" />
+	</resultMap>
+
+	 <insert id="EstateInsert">
+        insert into estate
+        (estate_no,region_code,member_no,business_member_no,phone,business_phone,
+        address,estate_type,transaction_type,estate_price,management_fee,estate_area,subway_station,
+        estate_content,written_date,deposit,address_detail)
+        values(seq_estate_no.nextval,#{RegionCode},#{MemberNo},#{BusinessMemberNo},#{Phone},#{BusinessPhone},#{Address},
+        #{EstateType},#{TransActionType},#{EstatePrice},#{ManageMentFee},#{EstateArea},#{SubwayStation},#{EstateContent},
+        sysdate,#{Deposit},#{AddressDetail})
+    </insert>
+	
+
+	<insert id="insertattach">
+		insert into
+		estate_photo
+		(photo_no,estate_no,original_filename,renamed_filename,upload_date)
+		values(seq_estate_photo.nextval,seq_estate_no.currval,#{originalFileName},#{renamedFileName},
+		sysdate)
+	</insert>
+	
+	
+	
+	<select id="selectLocalName" resultType="string" parameterType="string">
+		select legal_dong from region where legal_dong like '%'||#{address}||'%' and rownum=1
+	</select>
+	
+<!-- 아파트의 조건은 매물 타입, 거래유형,구조유형  -->
+	<select id="selectApartListForAll" resultType="string">
+		select e.address from
+		estate e left join tbl_option o on  e.estate_no=o.estate_no
+		where e.estate_type=#{estateType} and e.region_code=#{localCode} 
+		and transaction_type=#{dealType}
+		<if test='dealType=="O"'>
+			and e.deposit between #{range1} and #{range2} and e.estate_price between #{range3} and #{range4}
+		</if>
+		<if test='dealType!="O"'>
+			 and e.estate_price between #{range1} and #{range2} 
+		</if>
+		<if test='structure!="all"'>
+			<if test="structure gte 198.0">
+			and estate_area between #{structure} and 10000000
+			</if>
+			<if test='structure != 198.0'>
+				and estate_area between #{structure} and #{structure}+32
+			</if>
+		</if>
+		and e.region_code=#{localCode} and replace(option_detail,',','') like '%'||#{option,typeHandler=strArrTypeHandler}||'%'
+	</select>
+	
+	
+	<!-- 아파트 외 매물의 조건 : 매물유형,거래유형,구조유형,원룸의 경우 층수옵션,옵션 -->
+	<select id="selectEstateListForAll" resultType="string">
+		select e.address from estate e left join tbl_option o on e.estate_no=o.estate_no 
+		where e.estate_type=#{estateType} and replace(option_detail,',','') like '%'||#{option,typeHandler=strArrTypeHandler}||'%'
+		<if test='dealType!="all"'>
+		 and transaction_type=#{dealType}
+		 </if> 
+		 <if test='dealType=="O"'>
+			and e.deposit between #{range1} and #{range2} and e.estate_price between #{range3} and #{range4}
+		</if>
+		<if test='dealType!="O"'>
+			and e.estate_price between #{range1} and #{range2} 
+		</if>
+		<if test='structure!="all"'>
+			and replace(o.construction,',','')=replace(#{structure},',','')
+		</if>
+		<if test='estateType=="O"'>
+			<if test='topOption!="all"'>
+			and o.flooroption like '%'||#{topOption}||'%'  
+			</if>
+		</if>
+		and region_code=#{localCode}
+	</select>
+
+
+	<select id="selectlocalList" resultType="estate">
+    select * from
+        estate where region_code=#{localCode}
+    </select>
+    
+   <select id="selectCompany" resultType="map">
+      select  estate_no,member_no,member_email,business_member_no,member_name,business_phone,nvl(renamed_filename,'basicprofileimg.jpg') as RENAMED_FILENAME,nvl(company_name,'등록된 중개사무소가 없습니다.') as company_name,company_reg_no,member_email,quit_yn
+       from member left join estate using(member_no)  left join profile_photo using (member_no)  left join company_info using(company_reg_no)
+       where business_member_no =#{BusinessMemberNo} and estate_no = #{EstateNo}
+   </select>
+    
+    <insert id="insertWarningMemberByUser" >
+    	insert into report_estate (estate_no,member_no,report_comment) values(#{estateNo},#{memberNo},#{reason})
+    </insert>
+    
+    <select id="selectBusinessMemberInfo" resultType="map">
+    	select  b.avg, b.no,m.member_name as name
+		from(
+		select round(avg(rate_value),1) as avg ,business_member_no as no from member_rate where business_member_no=#{bMemberNo} group by business_member_no) b right join member m on(b.no=m.member_no)
+		where b.no=#{bMemberNo}
+    </select>
+
+    <insert id="estimation">
+    	insert into member_rate (business_member_no,member_no,rate_comment,rate_value) values(#{bMemberNo},#{memberNo},#{comment},#{count})
+    </insert>
+    <select id="selectMemberNoList" resultType="int">
+    	<!--ex)) select I.member_no, I.state, I.city, E.business_phone 중계사번호, E.address 매물주소
+    	from interest I left join estate E on I.region_code = E.region_code
+    	where I.state = '경기' and I.city = '안산시 단원구' and I.region_code = 41273 -->
+    	select 
+    		member_no
+    		from interest
+    	where state = #{state} and city = #{city}
+
+    </select>
+    <delete id="expiredPowerLinkEstate">
+		delete power_link where start_date = period
+    </delete>
+    
+    <insert id="insertMemoSend" parameterType="java.util.List">
+   
+    	insert into memo(memo_no, member_no, memo_Contents, memo_yn, memo_date)
+		 values	 
+		    (seq_memo_no.nextval, #{memberNo}, #{memoContents} , 'N', sysdate)
+
+    </insert>
+    
+    <select id="selectCart" resultType="map">
+    	SELECT ESTATE_NO, MEMBER_NO, CART_CHECK FROM TBL_CART WHERE ESTATE_NO = #{estateNo} AND MEMBER_NO = #{memberNo}
+    </select>
+    
+    <insert id="updateCartList">
+    	INSERT INTO TBL_CART(CART_NO, ESTATE_NO, MEMBER_NO, CART_CHECK) SELECT SEQ_CART_NO.NEXTVAL, ESTATE_NO, MEMBER_NO, 0 
+    	FROM(SELECT #{estateNo} ESTATE_NO, #{memberNo} MEMBER_NO FROM DUAL) A
+    	WHERE NOT EXISTS(SELECT 1 FROM TBL_CART WHERE ESTATE_NO = A.ESTATE_NO AND MEMBER_NO = A.MEMBER_NO)
+    </insert>
+    
+</mapper> 

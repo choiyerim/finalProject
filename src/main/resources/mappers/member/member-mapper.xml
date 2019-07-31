@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+ 	<insert id="insertMember">
+		INSERT INTO MEMBER(MEMBER_NO, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PWD, PHONE)
+		VALUES(seq_member_no.nextval,
+			   #{memberEmail},
+			   #{memberName},
+			   #{memberPwd},
+			   #{phone})
+	</insert>
+	
+	<select id="selectOneMember" resultType="member">
+		SELECT * FROM MEMBER WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<select id="checkEmail" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<update id="updateMember">
+		UPDATE MEMBER SET MEMBER_NAME = #{memberName}, MEMBER_PWD = #{newPwd}, RECEIVE_MEMO_YN = #{receiveMemoYN} 
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="findId" resultType="String">
+		SELECT MEMBER_EMAIL FROM MEMBER WHERE MEMBER_NAME = #{memberName} AND PHONE = #{phone}
+	</select>
+	
+	<select id="findPwd" resultType="_int">
+		SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_EMAIL = #{memberEmail} AND PHONE = #{phone}
+	</select>
+	
+	<update id="resetPwd">
+		UPDATE MEMBER SET MEMBER_PWD = #{resetPwd} WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<update id="deleteMember">
+		UPDATE MEMBER SET QUIT_DATE = sysdate, QUIT_YN = 'Y' WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="selectOneMember_" resultType="member">
+		SELECT * FROM MEMBER WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<insert id="insertInterest">
+		INSERT INTO INTEREST(INTEREST_NO, MEMBER_NO) VALUES(seq_interest_no.nextval, seq_member_no.currval)
+	</insert>
+	
+	<select id="selectInterest" resultMap="interestMap">
+		SELECT *
+		FROM INTEREST 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<resultMap type="interest" id="interestMap">
+		<result column="region_code" property="regionCode"/>
+		<result column="estate_type" property="estateType" typeHandler="strArrTypeHandler"/>
+	</resultMap>
+	
+	<update id="updateInterest">
+		UPDATE INTEREST 
+		SET REGION_CODE = (SELECT SUBSTR(REGION_CODE,0,5) FROM REGION WHERE LEGAL_DONG LIKE '%'||#{state}||' '||#{city}||'%' AND ROWNUM=1),
+		ESTATE_TYPE = #{estateType, typeHandler=strArrTypeHandler}, PET = #{pet}, ELEVATOR = #{elevator},
+		PARKING = #{parking}, SUBWAY = #{subway}, STATE = #{state}, CITY = #{city}, INTEREST_DATE = sysdate
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="forSaleList" resultMap="estate">
+		SELECT E.ESTATE_NO, E.BUSINESS_PHONE, E.TRANSACTION_TYPE, E.ESTATE_PRICE, E.ESTATE_AREA, E.ADDRESS, 
+		E.ESTATE_CONTENT, P.RENAMED_FILENAME 
+		FROM ESTATE E LEFT JOIN (SELECT ESTATE_NO, RENAMED_FILENAME FROM ESTATE_PHOTO
+								 WHERE ROWID IN (SELECT MIN(ROWID) FROM ESTATE_PHOTO
+								 GROUP BY ESTATE_NO)) P
+								 ON E.ESTATE_NO = P.ESTATE_NO
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<resultMap type="map" id="estate">
+	<!-- 	<id column="ESTATE_NO" property="EstateNo"/>
+		<result column="REGION_CODE" property="RegionCode"/>          
+		<result column="MEMBER_NO" property="MemberNo"/>
+		<result column="BUSINESS_MEMBER_NO" property="BusinessMemberNo"/>
+		<result column="PHONE" property="Phone"/>
+		<result column="BUSINESS_PHONE" property="BusinessPhone"/>
+		<result column="ADDRESS" property="Address"/>
+		<result column="ESTATE_TYPE" property="EstateType"/>
+		<result column="TRANSACTION_TYPE" property="TransActionType"/>
+		<result column="ESTATE_PRICE" property="EstatePrice"/>
+		<result column="MANAGEMENT_FEE" property="ManageMenetFee"/>
+		<result column="ESTATE_AREA" property="EstateArea"/>
+		<result column="SUBWAY_STATION" property="SubwayStation"/>
+		<result column="ESTATE_CONTENT" property="EstateContent"/>
+		<result column="WRITTEN_DATE" property="WrittenDate"/>
+		<result column="DEPOSIT" property="Deposit"/> -->
+	</resultMap>
+	
+	<select id="cartList" resultMap="estate">
+		SELECT M.MEMBER_EMAIL, E.ESTATE_NO, E.BUSINESS_MEMBER_NO, NVL(E.BUSINESS_PHONE, 'NULL'), E.TRANSACTION_TYPE, E.ESTATE_PRICE, E.ESTATE_AREA, E.ADDRESS, 
+		E.ESTATE_CONTENT, P.RENAMED_FILENAME
+		FROM ESTATE E LEFT JOIN (SELECT ESTATE_NO, RENAMED_FILENAME FROM ESTATE_PHOTO
+								 WHERE ROWID IN (SELECT MIN(ROWID) FROM ESTATE_PHOTO
+								 GROUP BY ESTATE_NO)) P
+								 ON E.ESTATE_NO = P.ESTATE_NO
+		LEFT JOIN TBL_CART C ON E.ESTATE_NO = C.ESTATE_NO
+        LEFT JOIN MEMBER M ON E.BUSINESS_MEMBER_NO = M.MEMBER_NO
+		WHERE C.MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectOneEstate" resultType="estate">
+		select * from estate where estate_no = #{estateNo}
+	</select>
+	<select id="selectEstatePhoto" resultType="estateAttach">
+		select * from estate_photo where estate_no = #{estateNo}
+	</select>
+	<select id="selectEstateOption" resultType="map">
+		select * from tbl_option where estate_no = #{estateNo}
+	</select>
+	
+	<!-- <update id="cart_check" parameterType="HashMap">
+		UPDATE TBL_CART
+		SET CART_CHECK = CART_CHECK + 1
+		WHERE MEMBER_NO = #{memberNo} AND ESTATE_NO = #{estateNo}
+	</update> -->
+	
+	<update id="cart_check_cancel" parameterType="HashMap">
+		UPDATE TBL_CART
+		SET CART_CHECK = 0
+		WHERE MEMBER_NO = #{memberNo} AND ESTATE_NO = #{estateNo}
+	</update>
+	
+	<update id="updateEstate">
+        UPDATE ESTATE SET
+        REGION_CODE = #{RegionCode}, PHONE = #{Phone}, ADDRESS = #{Address}, ESTATE_TYPE = #{EstateType},
+        TRANACTION_TYPE = #{TransActionType}, ESTATE_PRICE = #{EstatePrice}, MANAGEMENT_FEE = #{ManageMentFee},
+        ESTATE_AREA = #{EstateArea}, SUBWAY_STATION = #{SubwayStation}, ESTATE_CONTENT = #{EstateContent},
+        DEPOSIT = #{Deposit}, ADDRESS_DETAIL = #{AddressDetail}
+        WHERE ESTATE_NO = #{EstateNo}
+    </update>
+    
+ <!--    <resultMap type="option" id="optionMap">
+		<result column="option_detail" property="optionDetail" typeHandler="strArrTypeHandler"/>
+	</resultMap> -->
+    
+    <!-- set태그는 내부문자열이 비어있지 않은 경우 구문에 SET을 추가하고, 마지막 쉼표 제거함 -->
+    <update id="updateOption">
+    	UPDATE TBL_OPTION
+    	<set>
+    		<if test="optionDetail != null">
+    			OPTION_DETAIL = #{optionDetail},
+    		</if>
+    		<if test="construction != null">
+    			CONSTRUCTION = #{construction},
+    		</if>
+    		<if test="floorOption != null">
+    			FLOOROPTION = #{floorOption},
+    		</if>
+    	</set>
+    	WHERE ESTATE_NO = #{estateNo}
+    </update>
+    
+    <delete id="deleteEstate">
+    	DELETE FROM ESTATE WHERE ESTATE_NO = #{estateNo}
+    </delete>
+    
+    <delete id="deleteEstateOption">
+    	DELETE FROM TBL_OPTION WHERE ESTATE_NO = #{estateNo}
+    </delete>
+    
+    <delete id="deleteCartList">
+    	DELETE FROM TBL_CART WHERE MEMBER_NO = #{memberNo} AND ESTATE_NO = #{estateNo}
+    </delete>
+    
+    <update id="insertCartCheck">
+		UPDATE TBL_CART
+		SET CART_CHECK = 1
+		WHERE MEMBER_NO = #{memberNo} AND ESTATE_NO = #{estateNo}
+	</update>
+	
+	<update id="deleteCartCheck">
+		UPDATE TBL_CART
+		SET CART_CHECK = 0
+		WHERE MEMBER_NO = #{memberNo} AND ESTATE_NO = #{estateNo}
+	</update>
+	
+	<insert id="updateCartList">
+    	INSERT INTO TBL_CART(CART_NO, ESTATE_NO, MEMBER_NO, CART_CHECK) SELECT SEQ_CART_NO.NEXTVAL, ESTATE_NO, MEMBER_NO, 0 
+    	FROM(SELECT #{estateNo} ESTATE_NO, #{memberNo} MEMBER_NO FROM DUAL) A
+    	WHERE NOT EXISTS(SELECT 1 FROM TBL_CART WHERE ESTATE_NO = A.ESTATE_NO AND MEMBER_NO = A.MEMBER_NO)
+    </insert>
+
+</mapper>

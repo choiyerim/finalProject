@@ -1,0 +1,250 @@
+@charset "UTF-8";
+
+/* 배경 */
+div#back-container {
+    width: 100%;
+    height: auto;
+    padding: 40px 150px 20px 150px;
+    background-color: lightgray;
+}
+/* 정보창 */
+div#info-container {
+    width: auto;
+    max-width: 800px;
+    height: 600px;
+    margin: auto;
+    padding: 0px;
+    background-color: lightgray;
+}
+div#list-container {
+    background-color: white;
+    width: 800px;
+    height: 558px;
+    text-align: center;
+    padding: 100px;
+}
+nav#search-nav {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 30px;  
+}
+nav#pageBar {
+    position: relative;
+    top: 250px;
+    left: 40%;
+}
+div#button-container{
+	width: 800px;
+}
+/* button */
+div#button-container button {
+    font-size: 16px;   
+}
+
+div#list-container tr{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	height: 45px;
+}
+div#list-container th{
+	width: 160px;
+	background: lightgray;
+}
+div#list-container td{
+	width: 400px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+div#memberSet-btnGroup{
+	max-width: 560px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+/*찜한 목록*/
+div#cartList{
+	width: 100%;
+    height: 100%;
+    padding: 15px;
+	background: lightgray;
+	overflow: scroll;
+}
+
+div#cartList-container{
+	background-color: white;
+    width: 800px;
+    height: 558px;
+    text-align: center;
+    padding: 100px;
+}
+
+div.cartList-box{
+	float: left;
+	width: 550px;
+	height: 180px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 15px;
+	font-size: 12px;
+	text-align: left;
+	background: white;
+}
+
+div.chat-box{
+	position:relative;
+	float: right;
+	width: 200px;
+	height: 50px;
+	padding: 5px;
+	font-size: 16px;
+	transform:translate(20px, -150px);
+}
+div.cartList-box img{
+	width: 180px;
+	height: 135px;
+    float: left;
+    margin-right: 10px;
+}
+
+div.cartList-box:hover{
+	cursor: pointer;
+	border: 2px solid rgb(0, 0, 0, 0.3);
+}
+
+div.cartList-box p:nth-child(2){
+	margin: 10px;
+	font-size: 16px;
+	font-weight: bold;
+}
+div.cartList-box p:nth-child(5){
+	color: gray;
+}
+
+/*등록된매물*/
+div#forSaleList{
+	width: 100%;
+    height: 100%;
+    padding: 15px;
+	background: lightgray;
+	overflow: scroll;
+}
+
+div#forSaleList-container {
+    background-color: white;
+    width: 800px;
+    height: 558px;
+    text-align: center;
+    padding: 100px;
+}
+
+div.forSaleList-box{
+	float: left;
+	width: 550px;
+	height: 180px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 15px;
+	font-size: 12px;
+	text-align: left;
+	background: white;
+}
+div.forSaleList-box:hover{
+	cursor: pointer;
+	border: 2px solid rgb(0, 0, 0, 0.3);
+}
+div.forSaleList-box img{
+	width: 180px;
+	height: 135px;
+    float: left;
+    margin-right: 10px;
+}
+
+div.forSaleList-box p:nth-child(3){
+	margin: 10px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+div.edit-box{
+	position:relative;
+	float: right;
+	width: 140px;
+	height: 50px;
+	padding: 5px;
+	font-size: 16px;
+	transform:translate(20px, -50px);
+}
+
+/* 관심매물 */
+div#interestList-container {
+    background-color: white;
+    width: 800px;
+    height: 558px;
+    text-align: center;
+    padding: 100px;
+}
+
+div#interestList-container tr{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	height: 45px;
+}
+div#interestList-container th{
+	width: 160px;
+	background: lightgray;
+	text-align: center;
+}
+div#interestList-container td{
+	width: 400px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* 매물 modal */
+div.estate-info{
+	width: 400px;
+	height: 400px;
+	overflow: scroll;
+}
+
+div#estate-info-box{
+	display: -webkit-box;
+	margin-top: -1px;
+}
+
+div.estate-info div{
+	padding: 10px;
+	border-bottom: 1px solid lightgray;
+}
+div.estate-info div p{
+	margin: 0;
+}
+div.estate-info div span{
+	font-size: 13px;
+}
+div#estate-info-header p{
+	color: gray;
+}
+div#estate-info-area table{
+	width: 300px;
+}
+div#estate-info-area table th{
+	font-size: 18px;
+}
+div#estate-info-area table td{
+	font-size: 25px;
+	color: dodgerblue;
+}
+div#estate-info-managementFee p{
+	font-size: 25px;
+	color: dodgerblue;
+}
+div#estate-info-contents{
+	color: gray;
+	word-break:break-all;
+}
+div#estate-info-station p, div#estate-info-option p, div#estate-info-phone p{
+	font-size: 18px;
+}

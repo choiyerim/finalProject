@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+.chatHeader-container{
+	background-color: rgb(133, 186, 221);
+	padding-left: 15%;
+}
+/*chat clean*/
+a#clean{
+	float: right;
+}
+
+
+/*채팅창 컨테이너*/
+div.chat-class-container{
+	height:520px;
+	background-color: rgb(133, 186, 221);
+}
+
+/*채팅 입력칸*/
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 95%;
+    margin-left: 2%;
+    margin-top: 4%;
+}
+
+.badge-primary{
+	margin-top: 2px;
+	margin-left: 17%;
+	background-color: #798086
+}
+
+img#profile{
+	width:50px;
+	height: auto;
+	float:right;
+	border-radius: 50%;
+}
+/*back*/
+#backBtn{
+	margin-left: -15%;
+}
+
+/*채팅블록*/
+div.right span{
+	float: right;
+    min-width: 10px;
+    margin-right: 3%;
+    margin-bottom: 5%;
+}
+
+div.right{
+	    margin-left: 92%;
+}
+
+.chatTbl{
+	padding-top: 2%;
+	padding-bottom: 2%;
+}
+
+div.chatView-other{
+	margin-left: 1%;
+}
+.otherMsg{
+	background-color:white;
+}
